@@ -15,7 +15,7 @@ import (
 func main() {
 	start := time.Now()
 	// Fetch Image Response
-	res, err := http.Get("https://cdn.discordapp.com/attachments/951265974961721404/1044067933791457280/IMG_5647.jpg")
+	res, err := http.Get("https://media.discordapp.net/attachments/1001564196015702026/1039702135467671582/unknown.png?width=400&height=400")
 	if err != nil || res.StatusCode != 200 {
 		fmt.Println(err)
 	}
@@ -52,11 +52,14 @@ func RemoveBackground(image *image.RGBA) {
 	maxY := image.Bounds().Max.Y
 	targetColor := image.At(0, 0)
 
-	// We do this on each corner for background removal, (because a circle logo will reach each edge)
 	FillWithTargetColor(targetColor, 0, 0, color.RGBA{0, 0, 0, 0}, image)
-	FillWithTargetColor(targetColor, maxX-1, maxY-1, color.RGBA{0, 0, 0, 0}, image)
-	FillWithTargetColor(targetColor, 0, maxY-1, color.RGBA{0, 0, 0, 0}, image)
-	FillWithTargetColor(targetColor, maxX-1, 0, color.RGBA{0, 0, 0, 0}, image)
+
+	// if the other corner is already the target color, we dont run on the other corners
+	if image.At(maxX-1, maxY-1) != targetColor {
+		FillWithTargetColor(targetColor, maxX-1, maxY-1, color.RGBA{0, 0, 0, 0}, image)
+		FillWithTargetColor(targetColor, 0, maxY-1, color.RGBA{0, 0, 0, 0}, image)
+		FillWithTargetColor(targetColor, maxX-1, 0, color.RGBA{0, 0, 0, 0}, image)
+	}
 }
 
 func FillWithTargetColor(targetColor color.Color, x int, y int, newColor color.Color, image *image.RGBA) {
