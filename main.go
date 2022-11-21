@@ -60,6 +60,7 @@ func RemoveBackground(image *image.RGBA) {
 }
 
 func FillWithTargetColor(targetColor color.Color, x int, y int, newColor color.Color, image *image.RGBA) {
+
 	rx, gx, bx, ax := image.At(x, y).RGBA()
 
 	tr, tg, tb, ta := targetColor.RGBA()
@@ -81,4 +82,5 @@ func FillWithTargetColor(targetColor color.Color, x int, y int, newColor color.C
 			FillWithTargetColor(targetColor, x, y-1, newColor, image)
 		}
 	}
+
 }
