@@ -55,6 +55,7 @@ func RemoveBackground(image *image.RGBA) {
 	FillWithTargetColor(targetColor, 0, 0, color.RGBA{0, 0, 0, 0}, image)
 
 	// if the other corner is already the target color, we dont run on the other corners
+	// (if the other corner isn't already the target color, then the logo might be a circle touching the edges)
 	if image.At(maxX-1, maxY-1) != targetColor {
 		FillWithTargetColor(targetColor, maxX-1, maxY-1, color.RGBA{0, 0, 0, 0}, image)
 		FillWithTargetColor(targetColor, 0, maxY-1, color.RGBA{0, 0, 0, 0}, image)
@@ -70,6 +71,7 @@ func FillWithTargetColor(targetColor color.Color, x int, y int, newColor color.C
 
 	a := math.Abs(float64(rx)-float64(tr)) + math.Abs(float64(gx)-float64(tg)) + math.Abs(float64(bx)-float64(tb)) + math.Abs(float64(ax)-float64(ta))
 
+	// 30000 is the fill harshness
 	if a < 30000 {
 		image.SetRGBA(x, y, color.RGBA{0, 0, 0, 0})
 		if x+1 < image.Bounds().Max.X {
