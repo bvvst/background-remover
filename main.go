@@ -51,6 +51,8 @@ func RemoveBackground(image *image.RGBA) {
 	maxX := image.Bounds().Max.X
 	maxY := image.Bounds().Max.Y
 	targetColor := image.At(0, 0)
+
+	// We do this on each corner for background removal, (because a circle logo will reach each edge)
 	FillWithTargetColor(targetColor, 0, 0, color.RGBA{0, 0, 0, 0}, image)
 	FillWithTargetColor(targetColor, maxX-1, maxY-1, color.RGBA{0, 0, 0, 0}, image)
 	FillWithTargetColor(targetColor, 0, maxY-1, color.RGBA{0, 0, 0, 0}, image)
