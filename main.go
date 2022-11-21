@@ -50,32 +50,11 @@ func main() {
 func RemoveBackground(image *image.RGBA) {
 	maxX := image.Bounds().Max.X
 	maxY := image.Bounds().Max.Y
-	targetColor := Fill(0, 0, color.RGBA{0, 0, 0, 0}, image)
+	targetColor := image.At(0, 0)
+	FillWithTargetColor(targetColor, 0, 0, color.RGBA{0, 0, 0, 0}, image)
 	FillWithTargetColor(targetColor, maxX-1, maxY-1, color.RGBA{0, 0, 0, 0}, image)
 	FillWithTargetColor(targetColor, 0, maxY-1, color.RGBA{0, 0, 0, 0}, image)
 	FillWithTargetColor(targetColor, maxX-1, 0, color.RGBA{0, 0, 0, 0}, image)
-}
-
-func Fill(x int, y int, newColor color.Color, image *image.RGBA) color.Color {
-	targetColor := image.At(x, y)
-
-	if image.At(x, y) == targetColor {
-		image.SetRGBA(x, y, color.RGBA{0, 0, 0, 0})
-		if x+1 <= image.Bounds().Max.X {
-			FillWithTargetColor(targetColor, x+1, y, newColor, image)
-		}
-		if x-1 >= 0 {
-			FillWithTargetColor(targetColor, x-1, y, newColor, image)
-		}
-		if y+1 <= image.Bounds().Max.Y {
-			FillWithTargetColor(targetColor, x, y+1, newColor, image)
-		}
-		if y-1 >= 0 {
-			FillWithTargetColor(targetColor, x, y-1, newColor, image)
-		}
-	}
-
-	return targetColor
 }
 
 func FillWithTargetColor(targetColor color.Color, x int, y int, newColor color.Color, image *image.RGBA) {
